@@ -16,8 +16,12 @@ export default function RegisterForm() {
     try {
       await register(name, email, password);
       toast.success('Registration successful!');
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Registration failed');
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'response' in error && error.response && typeof error.response === 'object' && 'data' in error.response && error.response.data && typeof error.response.data === 'object' && 'message' in error.response.data) {
+        toast.error((error.response as any).data.message || 'Registration failed');
+      } else {
+        toast.error('Registration failed');
+      }
     } finally {
       setIsLoading(false);
     }

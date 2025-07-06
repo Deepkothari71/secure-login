@@ -15,8 +15,12 @@ export default function LoginForm() {
     try {
       await login(email, password);
       toast.success('Login successful!');
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Login failed');
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'response' in error && error.response && typeof error.response === 'object' && 'data' in error.response && error.response.data && typeof error.response.data === 'object' && 'message' in error.response.data) {
+        toast.error((error.response as any).data.message || 'Login failed');
+      } else {
+        toast.error('Login failed');
+      }
     } finally {
       setIsLoading(false);
     }

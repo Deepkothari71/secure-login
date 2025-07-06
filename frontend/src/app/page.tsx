@@ -17,6 +17,19 @@ export default function Home() {
   const springX = useSpring(mouseX, springConfig);
   const springY = useSpring(mouseY, springConfig);
 
+  // All useTransform hooks must be called unconditionally
+  const orb1X = useTransform(springX, (x) => x * 0.1);
+  const orb1Y = useTransform(springY, (y) => y * 0.1);
+  const orb2X = useTransform(springX, (x) => x * -0.1);
+  const orb2Y = useTransform(springY, (y) => y * 0.1);
+  const orb3X = useTransform(springX, (x) => x * 0.1);
+  const orb3Y = useTransform(springY, (y) => y * -0.1);
+
+  const cardRotateX = useTransform(springY, [-300, 300], [5, -5]);
+  const cardRotateY = useTransform(springX, [-300, 300], [-5, 5]);
+  const cardX = useTransform(springX, (x) => x * 0.05);
+  const cardY = useTransform(springY, (y) => y * 0.05);
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
@@ -32,7 +45,7 @@ export default function Home() {
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [mouseX, mouseY]);
 
   return (
     <main className="min-h-screen relative overflow-hidden">
@@ -53,8 +66,8 @@ export default function Home() {
             repeatType: "reverse"
           }}
           style={{
-            x: useTransform(springX, (x) => x * 0.1),
-            y: useTransform(springY, (y) => y * 0.1),
+            x: orb1X,
+            y: orb1Y,
           }}
         />
         <motion.div
@@ -69,8 +82,8 @@ export default function Home() {
             repeatType: "reverse"
           }}
           style={{
-            x: useTransform(springX, (x) => x * -0.1),
-            y: useTransform(springY, (y) => y * 0.1),
+            x: orb2X,
+            y: orb2Y,
           }}
         />
         <motion.div
@@ -85,8 +98,8 @@ export default function Home() {
             repeatType: "reverse"
           }}
           style={{
-            x: useTransform(springX, (x) => x * 0.1),
-            y: useTransform(springY, (y) => y * -0.1),
+            x: orb3X,
+            y: orb3Y,
           }}
         />
       </div>
@@ -105,16 +118,16 @@ export default function Home() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.3 }}
                 style={{
-                  rotateX: useTransform(springY, [-300, 300], [5, -5]),
-                  rotateY: useTransform(springX, [-300, 300], [-5, 5]),
+                  rotateX: cardRotateX,
+                  rotateY: cardRotateY,
                 }}
                 className="relative"
               >
                 <motion.div
                   className="absolute inset-0 bg-white/10 backdrop-blur-lg rounded-xl"
                   style={{
-                    x: useTransform(springX, (x) => x * 0.05),
-                    y: useTransform(springY, (y) => y * 0.05),
+                    x: cardX,
+                    y: cardY,
                   }}
                 />
                 <div className="relative bg-white/80 backdrop-blur-md rounded-xl shadow-lg p-8">
@@ -125,7 +138,7 @@ export default function Home() {
                     transition={{ delay: 0.3 }}
                     className="mt-4 text-center text-black" 
                   >
-                    Don't have an account?{' '}
+                    Don&apos;t have an account?{' '}
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -145,16 +158,16 @@ export default function Home() {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
                 style={{
-                  rotateX: useTransform(springY, [-300, 300], [5, -5]),
-                  rotateY: useTransform(springX, [-300, 300], [-5, 5]),
+                  rotateX: cardRotateX,
+                  rotateY: cardRotateY,
                 }}
                 className="relative"
               >
                 <motion.div
                   className="absolute inset-0 bg-white/10 backdrop-blur-lg rounded-xl"
                   style={{
-                    x: useTransform(springX, (x) => x * 0.05),
-                    y: useTransform(springY, (y) => y * 0.05),
+                    x: cardX,
+                    y: cardY,
                   }}
                 />
                 <div className="relative bg-white/80 backdrop-blur-md rounded-xl shadow-lg p-8">
